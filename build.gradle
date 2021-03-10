@@ -14,6 +14,7 @@ repositories {
 
 dependencies {
 	implementation 'org.springframework.boot:spring-boot-starter-web'
+	implementation 'org.springframework.boot:spring-boot-starter-oauth2-client'
 
 	implementation 'org.webjars:jquery:3.6.0'
 	implementation 'org.webjars:bootstrap:4.6.0'
