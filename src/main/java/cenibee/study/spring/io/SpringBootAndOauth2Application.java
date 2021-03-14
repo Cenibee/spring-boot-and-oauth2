@@ -17,33 +17,15 @@ import java.util.Map;
 
 @SpringBootApplication
 @RestController
-public class SpringBootAndOauth2Application extends WebSecurityConfigurerAdapter {
+public class SpringBootAndOauth2Application {
 
 	@GetMapping("/user")
 	public Map<String, Object> user(@AuthenticationPrincipal OAuth2User principal) {
-		return Collections.singletonMap("name", principal.getAttribute("name"));
+		return principal.getAttributes();
 	}
 
 	public static void main(String[] args) {
 		SpringApplication.run(SpringBootAndOauth2Application.class, args);
 	}
 
-	@Override
-	protected void configure(HttpSecurity http) throws Exception {
-		http
-				.authorizeRequests(a -> a
-						.antMatchers("/", "/error", "/webjars/**").permitAll()
-						.anyRequest().authenticated()
-				)
-				.csrf(c -> c
-						.csrfTokenRepository(CookieCsrfTokenRepository.withHttpOnlyFalse())
-				)
-				.logout(l -> l
-						.logoutSuccessUrl("/").permitAll()
-				)
-				.exceptionHandling(e -> e
-						.authenticationEntryPoint(new HttpStatusEntryPoint(HttpStatus.UNAUTHORIZED))
-				)
-				.oauth2Login();
-	}
 }
